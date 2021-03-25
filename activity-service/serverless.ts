@@ -1,10 +1,9 @@
 import type { AWS } from '@serverless/typescript';
 
-import getProductsList from '@functions/getProductsList';
-import getProductsById from '@functions/getProductsById';
+import getActivity from '@functions/getActivity';
 
 const serverlessConfiguration: AWS = {
-  service: 'product-service',
+  service: 'activity-service',
   frameworkVersion: '2',
   custom: {
     webpack: {
@@ -28,10 +27,7 @@ const serverlessConfiguration: AWS = {
     stage: 'dev',
   },
   // import the function via paths
-  functions: {
-    getProductsList,
-    getProductsById,
-  },
+  functions: { getActivity },
 };
 
 module.exports = serverlessConfiguration;

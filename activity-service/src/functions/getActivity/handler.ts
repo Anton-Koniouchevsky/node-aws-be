@@ -1,7 +1,8 @@
 import 'source-map-support/register';
 
-import { formatJSONResponse, LambdaFunction } from '@libs/apiGateway';
 const axios = require('axios');
+
+import { formatJSONResponse, LambdaFunction } from '@libs/apiGateway';
 
 
 export const getActivity: LambdaFunction = async (event) => {
