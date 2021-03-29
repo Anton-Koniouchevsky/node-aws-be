@@ -5,5 +5,13 @@ import { getProducts } from '@libs/products';
 
 
 export const getProductsList: LambdaFunction = async () => {
-  return formatJSONResponse({ message: getProducts() });
+  try {
+    const products = getProducts();
+
+    return formatJSONResponse({ message: products });
+  } catch(err) {
+    console.log('getProductsById', err.message);
+  
+    return formatJSONResponse({ errorMessage: err.message }, 404);
+  }
 };

@@ -1,0 +1,132 @@
+swagger: "2.0"
+info:
+  description: "This is a simple AWS API Gateway + AWS Lambda server."
+  version: "1.0.0"
+  title: "Node.js in AWS Cloud"
+  termsOfService: "http://swagger.io/terms/"
+  contact:
+    email: "apiteam@swagger.io"
+  license:
+    name: "Apache 2.0"
+    url: "http://www.apache.org/licenses/LICENSE-2.0.html"
+host: "TBD"
+basePath: "/v2"
+tags:
+- name: "products"
+  description: "Get access to products"
+- name: "activity"
+  description: "Mock service to get random activity"
+schemes:
+- "https"
+- "http"
+paths:
+  /products:
+    get:
+      tags:
+      - "products"
+      summary: "Returns all products"
+      operationId: "getProductsList"
+      produces:
+      - "application/json"
+      parameters: []
+      responses:
+        "200":
+          description: "successful operation"
+          schema:
+            type: "array"
+            items:
+              $ref: '#/definitions/Product'
+        "404":
+          description: "Products not found"
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+  /products/{productId}:
+    get:
+      tags:
+      - "products"
+      summary: "Find product by ID"
+      operationId: "getProductsById"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "productId"
+        in: "path"
+        description: "ID of product that needs to be fetched"
+        required: true
+        type: "string"
+      responses:
+        "200":
+          description: "successful operation"
+          schema:
+            $ref: "#/definitions/Product"
+        "404":
+          description: "Product not found"
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+  /activity:
+    get:
+      tags:
+      - "activity"
+      summary: "Get activity"
+      description: "Acts like a proxy for http://www.boredapi.com/api/activity/"
+      operationId: "getActivity"
+      produces:
+      - "application/json"
+      responses:
+        "200":
+          description: "successful operation"
+          schema:
+            $ref: "#/definitions/Activity"
+        "404":
+          description: "Error has happened"
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+definitions:
+  Product:
+    type: "object"
+    properties:
+      id:
+        type: "string"
+      title:
+        type: "string"
+      authors:
+        type: "string"
+      price:
+        type: "number"
+        format: "float"
+      description:
+        type: "string"
+    xml:
+      name: "Order"
+  Activity:
+    type: "object"
+    properties:
+      activity:
+        type: "string"
+      key:
+        type: "integer"
+        format: "int64"
+      accessibility:
+        type: "number"
+        format: "float"
+        minimum: 0
+        maximum: 1
+      type:
+        type: "string"
+      participants:
+        type: "integer"
+        format: "int64"
+        minimum: 1
+      price:
+        type: "number"
+        format: "float"
+      link:
+        type: "string"
+  ErrorResponse:
+    type: "object"
+    properties:
+      errorMessage:
+        type: "string"
+externalDocs:
+  description: "Find out more about Swagger"
+  url: "http://swagger.io"
