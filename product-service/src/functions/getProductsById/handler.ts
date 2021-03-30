@@ -18,7 +18,7 @@ export const getProductsById: LambdaFunction = async (event) => {
   try {
     const product = getProduct(event.pathParameters.productId);
 
-    return formatJSONResponse({ message: product });
+    return formatJSONResponse(product);
   } catch(err) {
     console.log('getProductsById', err.message);
   

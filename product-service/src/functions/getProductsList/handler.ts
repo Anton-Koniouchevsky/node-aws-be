@@ -8,7 +8,7 @@ export const getProductsList: LambdaFunction = async () => {
   try {
     const products = getProducts();
 
-    return formatJSONResponse({ message: products });
+    return formatJSONResponse(products);
   } catch(err) {
     console.log('getProductsById', err.message);
   
