@@ -14,8 +14,6 @@ basePath: "/v2"
 tags:
 - name: "products"
   description: "Get access to products"
-- name: "activity"
-  description: "Mock service to get random activity"
 schemes:
 - "https"
 - "http"
@@ -63,24 +61,6 @@ paths:
           description: "Product not found"
           schema:
             $ref: "#/definitions/ErrorResponse"
-  /activity:
-    get:
-      tags:
-      - "activity"
-      summary: "Get activity"
-      description: "Acts like a proxy for http://www.boredapi.com/api/activity/"
-      operationId: "getActivity"
-      produces:
-      - "application/json"
-      responses:
-        "200":
-          description: "successful operation"
-          schema:
-            $ref: "#/definitions/Activity"
-        "404":
-          description: "Error has happened"
-          schema:
-            $ref: "#/definitions/ErrorResponse"
 definitions:
   Product:
     type: "object"
@@ -98,30 +78,6 @@ definitions:
         type: "string"
     xml:
       name: "Order"
-  Activity:
-    type: "object"
-    properties:
-      activity:
-        type: "string"
-      key:
-        type: "integer"
-        format: "int64"
-      accessibility:
-        type: "number"
-        format: "float"
-        minimum: 0
-        maximum: 1
-      type:
-        type: "string"
-      participants:
-        type: "integer"
-        format: "int64"
-        minimum: 1
-      price:
-        type: "number"
-        format: "float"
-      link:
-        type: "string"
   ErrorResponse:
     type: "object"
     properties:
