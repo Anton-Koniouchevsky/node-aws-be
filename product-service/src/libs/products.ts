@@ -55,7 +55,19 @@ function getProducts(): Product[] {
   return products;
 }
 
+function getProductById(productId: string): Product | Error {
+  const product = products.find((product) => product.id === productId);
+
+  if (!product) {
+    throw new Error('product not found');
+  }
+
+  return product;
+};
+
 export {
   Product,
+  products,
   getProducts,
+  getProductById,
 };

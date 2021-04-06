@@ -1,17 +1,9 @@
 import 'source-map-support/register';
 
-import { formatJSONResponse, LambdaFunction } from '@libs/apiGateway';
+import { tryCatch, LambdaFunction } from '@libs/apiGateway';
 import { getProducts } from '@libs/products';
 
 
-export const getProductsList: LambdaFunction = async () => {
-  try {
-    const products = getProducts();
-
-    return formatJSONResponse(products);
-  } catch(err) {
-    console.log('getProductsById', err.message);
-  
-    return formatJSONResponse({ errorMessage: err.message }, 404);
-  }
+export const getProductsList: LambdaFunction = () => {
+  return tryCatch(getProducts);
 };
