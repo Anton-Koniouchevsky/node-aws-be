@@ -22,11 +22,18 @@ const serverlessConfiguration: AWS = {
     },
     environment: {
       AWS_NODEJS_CONNECTION_REUSE_ENABLED: '1',
+      // DB Connection Settings
+      DB_HOST: '${env:DB_HOST}',
+      DB_PORT: '${env:DB_PORT}',
+      DB_NAME: '${env:DB_NAME}',
+      DB_USERNAME: '${env:DB_USERNAME}',
+      DB_PASSWORD: '${env:DB_PASSWORD}',
     },
     lambdaHashingVersion: '20201221',
     region: 'eu-west-1',
     stage: 'dev',
   },
+  useDotenv: true,
   // import the function via paths
   functions: {
     getProductsList,
