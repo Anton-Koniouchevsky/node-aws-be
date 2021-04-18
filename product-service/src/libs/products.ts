@@ -52,6 +52,7 @@ StockModel.belongsTo(ProductModel, {
 });
 
 interface Stock {
+  product_id: string,
   count: number
 };
 
@@ -66,8 +67,7 @@ interface Product {
 function getProducts(): Promise<Product[]> {
   return ProductModel.findAll({
     include: {
-      model: StockModel,
-      attributes: ['count']
+      model: StockModel
     }
   });
 }
@@ -75,14 +75,29 @@ function getProducts(): Promise<Product[]> {
 function getProductById(productId: string): Promise<Product|Error> {
   return ProductModel.findByPk(productId, {
     include: {
-      model: StockModel,
-      attributes: ['count']
+      model: StockModel
     }
   });
 };
+
+function createProduct(product: Product): Promise<Product> {
+  return sequelize.transaction(async (t) => {
+    const createdProduct = await ProductModel.create(product, { transaction: t });
+
+    if (product.stock) {
+      createdProduct.stock = await StockModel.create({
+        product_id: createdProduct.id,
+        ...product.stock,
+      }, { transaction: t });
+    }
+    
+    return createdProduct;
+  });
+}
 
 export {
   Product,
   getProducts,
   getProductById,
+  createProduct,
 };

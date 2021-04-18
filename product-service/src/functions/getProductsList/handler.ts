@@ -4,6 +4,6 @@ import { tryCatch, LambdaFunction } from '@libs/apiGateway';
 import { getProducts } from '@libs/products';
 
 
-export const getProductsList: LambdaFunction = () => {
+export const main: LambdaFunction = () => {
   return tryCatch(getProducts);
 };

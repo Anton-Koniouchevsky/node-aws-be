@@ -4,7 +4,7 @@ import { tryCatch, LambdaFunction } from '@libs/apiGateway';
 import { getProductById } from '@libs/products';
 
 
-export const getProductsById: LambdaFunction = (event) => {
+export const main: LambdaFunction = (event) => {
   console.log(event);
   return tryCatch(() => getProductById(event?.pathParameters?.productId));
 };

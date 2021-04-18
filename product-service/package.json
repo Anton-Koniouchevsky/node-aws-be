@@ -7,8 +7,9 @@
     "test": "npx jest",
     "deploy": "sls deploy",
     "invoke:local:getProductsList": "serverless invoke local -f getProductsList",
-    "invoke:local:getProductsById": "serverless invoke local -f getProductsById  --path ./src/mocks/getProductsById.json",
-    "invoke:local:getProductsById:failed": "serverless invoke local -f getProductsById  --path ./src/mocks/getProductsById.failed.json"
+    "invoke:local:getProductsById": "serverless invoke local -f getProductsById  --path ./src/functions/getProductsById/mock.json",
+    "invoke:local:getProductsById:failed": "serverless invoke local -f getProductsById  --path ./src/functions/getProductsById/mock.failed.json",
+    "invoke:local:createProduct": "sls invoke local -f createProduct --path src/functions/createProduct/mock.json"
   },
   "engines": {
     "node": ">=14.15.0"

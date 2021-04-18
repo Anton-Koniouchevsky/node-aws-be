@@ -1,6 +1,10 @@
-import type { APIGatewayProxyEvent, APIGatewayProxyResult } from "aws-lambda"
+import type { APIGatewayProxyEvent, APIGatewayProxyResult } from "aws-lambda";
 
-export type LambdaFunction = (event: APIGatewayProxyEvent) => Promise<APIGatewayProxyResult>;
+type Handler<TEvent = any> = (event: TEvent) => Promise<APIGatewayProxyResult>;
+export type LambdaFunction = Handler<APIGatewayProxyEvent>;
+
+type ValidatedAPIGatewayProxyEvent<T> = Omit<APIGatewayProxyEvent, 'body'> & { body: T }
+export type TypedLambdaFunction<T> = Handler<ValidatedAPIGatewayProxyEvent<T>>;
 
 const formatJSONResponse = (response: any, statusCode = 200): APIGatewayProxyResult => {
   return {
