@@ -5,5 +5,7 @@ import { getProducts } from '@libs/products';
 
 
 export const main: LambdaFunction = () => {
+  console.log('getProductsList invoked');
+
   return tryCatch(getProducts);
 };

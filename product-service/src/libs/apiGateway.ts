@@ -23,7 +23,7 @@ export const tryCatch = async (handler: Function, ...args: any[]): Promise<APIGa
 
     return formatJSONResponse(result);
   } catch(err) {
-    console.log(err.message);
+    console.log(err);
 
     return formatJSONResponse({ errorMessage: err.message }, err.statusCode || 500);
   }

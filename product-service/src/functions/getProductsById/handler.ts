@@ -5,6 +5,7 @@ import { getProductById } from '@libs/products';
 
 
 export const main: LambdaFunction = (event) => {
-  console.log(event);
+  console.log('getProductsById invoked with event: ', event);
+
   return tryCatch(() => getProductById(event?.pathParameters?.productId));
 };
