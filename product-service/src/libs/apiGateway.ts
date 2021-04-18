@@ -17,14 +17,14 @@ const formatJSONResponse = (response: any, statusCode = 200): APIGatewayProxyRes
   }
 }
 
-export const tryCatch = async (handler: Function): Promise<APIGatewayProxyResult> => {
+export const tryCatch = async (handler: Function, ...args: any[]): Promise<APIGatewayProxyResult> => {
   try {
-    const result = await handler();
+    const result = await handler(...args);
 
     return formatJSONResponse(result);
   } catch(err) {
     console.log(err.message);
 
-    return formatJSONResponse({ errorMessage: err.message }, 404);
+    return formatJSONResponse({ errorMessage: err.message }, err.statusCode || 500);
   }
 }
