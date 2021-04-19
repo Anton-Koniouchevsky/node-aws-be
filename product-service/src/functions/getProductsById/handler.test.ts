@@ -1,17 +1,17 @@
-import { getProductsById } from './handler';
+import { main } from './handler';
+import products from '@libs/products/products.mock.json';
+import * as productsService from '@libs/products';
+import HandlerError from '@libs/handlerError';
 
-import { products } from '../../libs/products';
+jest.mock('@libs/products/products-service');
+const mockedProductsService = productsService as jest.Mocked<typeof productsService>;
 
 describe('#getProductsById', () => {
   test('should return 200 response if product was found', async () => {
     const expected = products[1];
-    const mockEvent = {
-      pathParameters: {
-        productId: expected.id
-      }
-    } as any;
+    mockedProductsService.getProductById.mockResolvedValue(expected);
 
-    const result = await getProductsById(mockEvent);
+    const result = await main({} as any);
 
     expect(result).toMatchObject({
       statusCode: 200,
@@ -20,17 +20,24 @@ describe('#getProductsById', () => {
   });
 
   test('should return 404 response if product was not found', async () => {
-    const mockEvent = {
-      pathParameters: {
-        productId: 'fake id'
-      }
-    } as any;
+    mockedProductsService.getProductById.mockRejectedValue(new HandlerError(404, 'Product Not Found'));
 
-    const result = await getProductsById(mockEvent);
+    const result = await main({} as any);
 
     expect(result).toMatchObject({
       statusCode: 404,
-      body: JSON.stringify({ errorMessage: 'product not found' }),
+      body: JSON.stringify({ errorMessage: 'Product Not Found' }),
+    });
+  });
+
+  test('should return 500 response in case of unexpected errors', async () => {
+    mockedProductsService.getProductById.mockRejectedValue(new Error('Some unexpected error'));
+
+    const result = await main({} as any);
+
+    expect(result).toMatchObject({
+      statusCode: 500,
+      body: JSON.stringify({ errorMessage: 'Some unexpected error' }),
     });
   });
 });
