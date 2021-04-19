@@ -3,9 +3,6 @@ import type { APIGatewayProxyEvent, APIGatewayProxyResult } from "aws-lambda";
 type Handler<TEvent = any> = (event: TEvent) => Promise<APIGatewayProxyResult>;
 export type LambdaFunction = Handler<APIGatewayProxyEvent>;
 
-type ValidatedAPIGatewayProxyEvent<T> = Omit<APIGatewayProxyEvent, 'body'> & { body: T }
-export type TypedLambdaFunction<T> = Handler<ValidatedAPIGatewayProxyEvent<T>>;
-
 const formatJSONResponse = (response: any, statusCode = 200): APIGatewayProxyResult => {
   return {
     statusCode,
@@ -13,6 +10,8 @@ const formatJSONResponse = (response: any, statusCode = 200): APIGatewayProxyRes
     headers: {
       'Access-Control-Allow-Origin': '*',
       'Access-Control-Allow-Credentials': true,
+      "Access-Control-Allow-Methods": "OPTIONS,POST,GET",
+      "Access-Control-Allow-Headers" : "Content-Type",
     },
   }
 }

@@ -20,7 +20,7 @@ export function initSequelize(): SequelizeProps {
   });
   
   
-  const ProductModel = sequelize.define<ProductInstance>('Product', {
+  const ProductModel = sequelize.define<ProductInstance>('product', {
     id: {
       type: DataTypes.UUID,
       defaultValue: DataTypes.UUIDV4,
@@ -47,7 +47,7 @@ export function initSequelize(): SequelizeProps {
     timestamps: false,
   });
   
-  const StockModel = sequelize.define<StockInstance>('Stock', {
+  const StockModel = sequelize.define<StockInstance>('stock', {
     product_id: {
       type: DataTypes.UUID,
       primaryKey: true,

@@ -1,9 +1,9 @@
-interface Stock {
+export interface Stock {
   product_id: string,
   count: number
 };
 
-interface Product {
+export interface Product {
   id?: string,
   title: string,
   description?: string,
@@ -11,7 +11,3 @@ interface Product {
   stock?: Stock,
 };
 
-export {
-  Stock,
-  Product,
-};

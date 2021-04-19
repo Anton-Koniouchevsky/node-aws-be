@@ -1,10 +1,13 @@
 import 'source-map-support/register';
 
-import { tryCatch, TypedLambdaFunction } from '@libs/apiGateway';
+import { tryCatch, LambdaFunction } from '@libs/apiGateway';
 import { createProduct, Product } from '@libs/products';
 
-export const main: TypedLambdaFunction<Product> = async (event) => {
+export const main: LambdaFunction = (event) => {
   console.log('createProduct invoked with event: ', event);
 
-  return tryCatch(createProduct, event.body);
+  return tryCatch(() => {
+    const product = <Product>JSON.parse(event.body);
+    return createProduct(product);
+  });
 };
