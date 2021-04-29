@@ -5,7 +5,11 @@
   "main": "serverless.ts",
   "scripts": {
     "test": "npx jest",
-    "deploy": "sls deploy"
+    "deploy": "sls deploy",
+    "invoke:local:getProductsList": "serverless invoke local -f getProductsList",
+    "invoke:local:getProductsById": "serverless invoke local -f getProductsById  --path ./src/functions/getProductsById/mock.json",
+    "invoke:local:getProductsById:failed": "serverless invoke local -f getProductsById  --path ./src/functions/getProductsById/mock.failed.json",
+    "invoke:local:createProduct": "sls invoke local -f createProduct --path src/functions/createProduct/mock.json"
   },
   "engines": {
     "node": ">=14.15.0"
@@ -14,15 +18,18 @@
     "@middy/core": "^1.5.2",
     "@middy/http-json-body-parser": "^1.5.2",
     "axios": "^0.21.1",
+    "pg": "^8.6.0",
+    "pg-hstore": "^2.3.3",
+    "sequelize": "^6.6.2",
     "source-map-support": "^0.5.19"
   },
   "devDependencies": {
     "@serverless/typescript": "^2.23.0",
     "@types/aws-lambda": "^8.10.71",
     "@types/jest": "^26.0.22",
-    "@types/node": "^14.14.25",
+    "@types/node": "^14.14.41",
+    "@types/validator": "^13.1.3",
     "jest": "^26.6.3",
-    "json-schema-to-ts": "^1.5.0",
     "serverless": "^2.23.0",
     "serverless-webpack": "^5.3.5",
     "ts-jest": "^26.5.4",

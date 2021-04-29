@@ -1,0 +1,10 @@
+{
+  "body": {
+    "title": "title",
+    "description": "description",
+    "price": 42,
+    "stock": {
+      "count": 42
+    }
+  }
+}

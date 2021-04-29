@@ -1,6 +1,7 @@
-import type { APIGatewayProxyEvent, APIGatewayProxyResult } from "aws-lambda"
+import type { APIGatewayProxyEvent, APIGatewayProxyResult } from "aws-lambda";
 
-export type LambdaFunction = (event: APIGatewayProxyEvent) => Promise<APIGatewayProxyResult>;
+type Handler<TEvent = any> = (event: TEvent) => Promise<APIGatewayProxyResult>;
+export type LambdaFunction = Handler<APIGatewayProxyEvent>;
 
 const formatJSONResponse = (response: any, statusCode = 200): APIGatewayProxyResult => {
   return {
@@ -9,18 +10,20 @@ const formatJSONResponse = (response: any, statusCode = 200): APIGatewayProxyRes
     headers: {
       'Access-Control-Allow-Origin': '*',
       'Access-Control-Allow-Credentials': true,
+      "Access-Control-Allow-Methods": "OPTIONS,POST,GET",
+      "Access-Control-Allow-Headers" : "Content-Type",
     },
   }
 }
 
-export const tryCatch = async (handler: Function): Promise<APIGatewayProxyResult> => {
+export const tryCatch = async (handler: Function, ...args: any[]): Promise<APIGatewayProxyResult> => {
   try {
-    const result = await handler();
+    const result = await handler(...args);
 
     return formatJSONResponse(result);
   } catch(err) {
-    console.log(err.message);
+    console.log(err);
 
-    return formatJSONResponse({ errorMessage: err.message }, 404);
+    return formatJSONResponse({ errorMessage: err.message }, err.statusCode || 500);
   }
 }
