@@ -13,6 +13,7 @@
   },
   "dependencies": {
     "aws-sdk": "^2.897.0",
+    "csv-parser": "^3.0.0",
     "source-map-support": "^0.5.19"
   },
   "devDependencies": {

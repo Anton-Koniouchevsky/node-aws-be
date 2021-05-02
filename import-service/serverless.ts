@@ -27,28 +27,12 @@ const serverlessConfiguration: AWS = {
       // S3 Settings
       S3_SECRET_KEY: '${env:S3_SECRET_KEY}',
       S3_SECRET_KEY_ID: '${env:S3_SECRET_KEY_ID}',
-      S3_REGION: '${env:S3_REGION}'
+      S3_REGION: '${env:S3_REGION}',
+      S3_BUCKET: '${self:custom.s3FullBucketName}'
     },
     lambdaHashingVersion: '20201221',
     region: 'eu-west-1',
     stage: 'dev',
-    /* iamRoleStatements: [
-      {
-        Effect: 'Allow',
-        Action: ['s3:ListBucket'],
-        Resource: 'arn:aws:s3:::${self:custom.s3FullBucketName}',
-      },
-      {
-        Effect: 'Allow',
-        Action: ['s3:PutObject'],
-        Resource: 'arn:aws:s3:::${self:custom.s3FullBucketName}',
-      },
-      {
-        Effect: 'Allow',
-        Action: ['s3:*'],
-        Resource: 'arn:aws:s3:::${self:custom.s3FullBucketName}/*',
-      }
-    ] */
   },
   useDotenv: true,
   // import the function via paths
