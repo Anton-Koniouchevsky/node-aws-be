@@ -1,0 +1,47 @@
+service: import-bucket
+
+provider:
+  name: aws
+  runtime: nodejs14.x
+  region: eu-west-1
+  stage: dev
+
+custom:
+  s3BucketName: import-products
+  s3FullBucketName: ${self:custom.s3BucketName}-storage-${opt:stage, self:provider.stage}
+
+resources:
+  Resources:
+    ImportProductsS3Bucket:
+      Type: AWS::S3::Bucket
+      Properties: 
+        BucketName: ${self:custom.s3FullBucketName}
+        AccessControl: PublicRead
+        CorsConfiguration:
+          CorsRules:
+            - AllowedMethods:
+                - GET
+                - HEAD
+                - PUT
+              AllowedOrigins:
+                - "*"
+              AllowedHeaders:
+                - "*"
+    ImportProductsS3BucketPolicy:
+      Type: AWS::S3::BucketPolicy
+      Properties:
+        Bucket: 
+          Ref: ImportProductsS3Bucket
+        PolicyDocument:
+          Statement:
+            - Sid: PublicPut
+              Effect: Allow
+              Principal: '*'
+              Action:
+                - s3:GetObject
+                - s3:ListBucket
+                - s3:PutObject
+                - s3:PutObjectAcl
+              Resource:
+                - arn:aws:s3:::${self:custom.s3FullBucketName}
+                - arn:aws:s3:::${self:custom.s3FullBucketName}/*
