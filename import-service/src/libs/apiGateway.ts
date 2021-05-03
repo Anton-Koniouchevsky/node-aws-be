@@ -1,6 +1,7 @@
-import type { APIGatewayProxyEvent, APIGatewayProxyResult, S3Event, Handler } from "aws-lambda";
+import type { APIGatewayProxyEvent, APIGatewayProxyResult, S3Event } from "aws-lambda";
 
-export type LambdaFunction = Handler<APIGatewayProxyEvent>;
+type Handler<TEvent = any, TResult = any> = (event: TEvent) => void | Promise<TResult>;
+export type LambdaFunction = Handler<APIGatewayProxyEvent, APIGatewayProxyResult>;
 export type S3EventLambdaFunction = Handler<S3Event, void>;
 
 const formatJSONResponse = (response: any, statusCode = 200): APIGatewayProxyResult => {
