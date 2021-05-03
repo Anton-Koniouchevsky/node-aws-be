@@ -21,9 +21,13 @@ export const main: S3EventLambdaFunction = (event) => {
 
   event.Records.forEach(record => {
     console.log('importFileParser', 'parse record: ', record);
+
+    const bucketName = record.s3.bucket.name;
+    const objectKey = record.s3.object.key;
+
     const s3Stream = s3.getObject({
-      Bucket: record.s3.bucket.name,
-      Key: record.s3.object.key
+      Bucket: bucketName,
+      Key: objectKey,
     }).createReadStream();
 
     console.log(s3Stream);
@@ -37,14 +41,14 @@ export const main: S3EventLambdaFunction = (event) => {
           console.log('importFileParser', 'end');
 
           await s3.copyObject({
-            Bucket: record.s3.bucket.name,
-            CopySource: record.s3.bucket.name + '/' + record.s3.object.key,
+            Bucket: bucketName,
+            CopySource: bucketName + '/' + objectKey,
             Key: record.s3.object.key.replace('uploaded', 'parsed'),
           }).promise().then(() => console.log('importFileParser', 'file copied'));
-
+        
           await s3.deleteObject({
-            Bucket: record.s3.bucket.name,
-            Key: record.s3.object.key
+            Bucket: bucketName,
+            Key: objectKey,
           }).promise().then(() => console.log('importFileParser', 'file deleted'));
         } catch(err) {
           console.log('importFileParser', 'error', err);

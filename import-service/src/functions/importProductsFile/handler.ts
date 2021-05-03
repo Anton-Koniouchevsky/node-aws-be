@@ -19,13 +19,13 @@ export const main: LambdaFunction = (event) => {
     const fileName = event?.queryStringParameters?.fileName;
 
     if (!fileName) {
-      throw new Error('filename is not passed');
+      throw new Error('file name is not passed');
     }
 
     const path = `uploaded/${fileName}`;
     const s3 = new S3();
     const params = {
-      Bucket: 'import-products-storage-dev',
+      Bucket: process.env.S3_BUCKET,
       Key: path,
     };
 
