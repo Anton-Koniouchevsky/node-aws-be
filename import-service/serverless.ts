@@ -76,13 +76,29 @@ const serverlessConfiguration: AWS = {
           TopicName: '${self:custom.s3BucketName}-topic-${opt:stage, self:provider.stage}',
         },
       },
-      SNSSubscription: {
+      SNSSubscriptionSuccess: {
         Type: 'AWS::SNS::Subscription',
         Properties: {
-          Endpoint: '${env:SNS_SUBSCRIPTION_EMAIL}',
+          Endpoint: '${env:SNS_SUBSCRIPTION_EMAIL_SUCCESS}',
           Protocol: 'email',
           TopicArn: {
             Ref: 'SNSTopic',
+          },
+          FilterPolicy: {
+            status: ['success'],
+          },
+        },
+      },
+      SNSSubscriptionFailure: {
+        Type: 'AWS::SNS::Subscription',
+        Properties: {
+          Endpoint: '${env:SNS_SUBSCRIPTION_EMAIL_FAILURE}',
+          Protocol: 'email',
+          TopicArn: {
+            Ref: 'SNSTopic',
+          },
+          FilterPolicy: {
+            status: ['failure'],
           },
         },
       },
