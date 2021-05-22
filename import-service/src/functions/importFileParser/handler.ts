@@ -1,8 +1,8 @@
 import 'source-map-support/register';
 
 import { S3EventLambdaFunction } from '@libs/apiGateway';
-import { config, S3 } from 'aws-sdk';
-import * as csv from 'csv-parser';
+import { config, S3, SQS } from 'aws-sdk';
+import csv from 'csv-parser';
 
 const { S3_SECRET_KEY, S3_SECRET_KEY_ID, S3_REGION } = process.env;
 
@@ -18,6 +18,7 @@ export const main: S3EventLambdaFunction = (event) => {
   console.log('importFileParser invoked with event: ', event);
 
   const s3 = new S3();
+  const sqs = new SQS();
 
   event.Records.forEach(record => {
     console.log('importFileParser', 'parse record: ', record);
@@ -35,6 +36,12 @@ export const main: S3EventLambdaFunction = (event) => {
     s3Stream.pipe(csv())
       .on('data', (data) => {
         console.log('importFileParser', 'data', data);
+        sqs.sendMessage({
+          QueueUrl: process.env.SQS_URL,
+          MessageBody: JSON.stringify(data),
+        }, () => {
+          console.log('importFileParser', 'send message for: ', process.env.SQS_URL, 'message: ', data);
+        });
       })
       .on('end', async () => {
         try {
