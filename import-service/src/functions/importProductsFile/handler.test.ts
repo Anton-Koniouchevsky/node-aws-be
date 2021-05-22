@@ -18,7 +18,7 @@ describe('#importProductsFile', () => {
 
     expect(result).toMatchObject({
       statusCode: 500,
-      body: JSON.stringify({ errorMessage: 'filename is not passed' }),
+      body: JSON.stringify({ errorMessage: 'file name is not passed' }),
     });
   });
 
