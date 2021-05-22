@@ -30,6 +30,8 @@ const serverlessConfiguration: AWS = {
       S3_SECRET_KEY_ID: '${env:S3_SECRET_KEY_ID}',
       S3_REGION: '${env:S3_REGION}',
       S3_BUCKET: '${self:custom.s3FullBucketName}',
+      // Products Endpoint
+      PRODUCTS_ENDPOINT: '${env:PRODUCTS_ENDPOINT}',
       // SQS Settings
       SQS_URL: {
         Ref: 'SQSQueue'
